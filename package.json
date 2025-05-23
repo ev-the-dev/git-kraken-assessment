@@ -5,6 +5,7 @@
     "@swc/cli": "^0.1.65",
     "@swc/core": "^1.11.29",
     "@tsconfig/node18": "^18.2.4",
+    "@types/express": "^5.0.2",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.21",
     "eslint": "^9.27.0",
@@ -21,5 +22,8 @@
     "test:e2e": "npx jest --selectProjects e2e",
     "test:integration": "npx jest --selectProjects integration",
     "test:unit": "npx jest --selectProjects unit --passWithNoTests"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
   }
 }

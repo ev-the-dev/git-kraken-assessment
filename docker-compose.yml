@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    restart: always
+    ports:
+      - "9001":"9001"
+    environment:
+      DB_URL: "postgres://bloggeur:bloggeur@db:5432/bloggeur"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: bloggeur
+      POSTGRES_PASSWORD: bloggeur
+    command: postgres -c log_statement=all
+
+
