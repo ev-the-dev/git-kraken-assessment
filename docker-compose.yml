@@ -7,9 +7,10 @@ services:
       dockerfile: ./Dockerfile
     restart: always
     ports:
-      - "9001":"9001"
+      - "${PORT:-9001}":"${PORT:-9001}"
     environment:
       DB_URL: "postgres://bloggeur:bloggeur@db:5432/bloggeur"
+      PORT: 9001
     depends_on:
       - db
 

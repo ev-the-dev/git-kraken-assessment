@@ -3,7 +3,9 @@ import { Kysely, PostgresDialect } from "kysely"
 import { Database } from "./types.ts"
 
 const dialect = new PostgresDialect({
-  pool: new Pool({}),
+  pool: new Pool({
+    connectionString: process.env.DB_URL,
+  }),
 })
 
 export const db = new Kysely<Database>({
