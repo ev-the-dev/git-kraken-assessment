@@ -1,0 +1,25 @@
+{
+  "name": "bloggeur",
+  "devDependencies": {
+    "@ev-the-dev/highway": "^0.2.2",
+    "@swc/cli": "^0.1.65",
+    "@swc/core": "^1.11.29",
+    "@tsconfig/node18": "^18.2.4",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.15.21",
+    "eslint": "^9.27.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.5.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "check": "npx tsc --noEmit",
+    "clean": "rm -r dist/",
+    "compile": "npx swc src/ -d dist && npx swc index.ts -o dist/index.js",
+    "lint": "npx eslint",
+    "test:e2e": "npx jest --selectProjects e2e",
+    "test:integration": "npx jest --selectProjects integration",
+    "test:unit": "npx jest --selectProjects unit --passWithNoTests"
+  }
+}
