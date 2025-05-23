@@ -1,0 +1,19 @@
+#!/bin/sh
+COLOR_OFF="\033[0m"
+GREEN="\033[0;32m"
+YELLOW="\033[0;33m"
+RED="\033[0;31m"
+
+printf "\n~~~%sBuilding the dist directory%s~~~\n" "$GREEN" "$COLOR_OFF"
+pnpm compile
+
+printf "\n~~~%sCopying package.json, pnpm-lock.yaml to dist directory%s~~~\n" "$GREEN" "$COLOR_OFF"
+cp -v ./package.json ./pnpm-lock.yaml ./dist || {
+  printf "\n~~~%sCopying files failed%s~~~\n" "$RED" "$COLOR_OFF"
+  exit 1
+}
+
+printf "\n~~~%sChanging directory to dist and installing production dependencies%s~~~\n" "$GREEN" "$COLOR_OFF"
+cd ./dist && pnpm install --prod
+
+printf "\n~~~%s¡¡¡ALL DONE!!!%s~~~\n" "$GREEN" "$COLOR_OFF"

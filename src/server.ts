@@ -1,5 +1,5 @@
 import express from "express"
-import { registerControllers } from "./controllers"
+import { RegisterControllers } from "./controllers"
 
 export function Run() {
   const app = express()
@@ -7,7 +7,7 @@ export function Run() {
   app.use(express.json())
   app.disable("x-powered-by")
 
-  const controllers = registerControllers()
+  const controllers = RegisterControllers()
 
   app.use("/health", controllers.health)
 

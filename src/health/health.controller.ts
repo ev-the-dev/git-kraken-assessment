@@ -10,7 +10,7 @@ export class HealthController {
   }
 
   protected async health(_: Request, res: Response) {
-    const isHealthy = await this.service.health()
+    const isHealthy = await this.service.Health()
     if (isHealthy) {
       res.json({
         db: "connected",

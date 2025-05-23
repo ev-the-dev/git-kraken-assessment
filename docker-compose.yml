@@ -7,7 +7,7 @@ services:
       dockerfile: ./Dockerfile
     restart: always
     ports:
-      - "${PORT:-9001}":"${PORT:-9001}"
+      - "${PORT:-9001}:${PORT:-9001}"
     environment:
       DB_URL: "postgres://bloggeur:bloggeur@db:5432/bloggeur"
       PORT: 9001
@@ -22,5 +22,3 @@ services:
       POSTGRES_USER: bloggeur
       POSTGRES_PASSWORD: bloggeur
     command: postgres -c log_statement=all
-
-

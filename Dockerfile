@@ -11,7 +11,7 @@ RUN corepack enable pnpm
 
 RUN pnpm install --frozen-lockfile
 
-RUN bash build.sh
+RUN chmod +x build && ./build
 
 # Stage 2: Runtime
 FROM node:22-alpine
