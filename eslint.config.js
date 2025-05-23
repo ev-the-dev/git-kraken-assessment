@@ -1,4 +1,17 @@
+import eslint from "@eslint/js"
+import tslint from "typescript-eslint"
 
-import highway from "@ev-the-dev/highway"
-
-export default highway.configs.full
+export default tslint.config(
+  eslint.configs.recommended,
+  tslint.configs.recommendedTypeChecked,
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: {
+          allowDefaultProject: ["*.js"],
+        },
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  }
+)

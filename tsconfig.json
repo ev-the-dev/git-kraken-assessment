@@ -1,54 +1,33 @@
 {
   "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "rootDir": ".",
-    "outDir": "dist",
-    "moduleResolution": "nodenext",
-    "module": "nodenext",
-    "target": "ES6",
-    "paths": {
-      "@example/*": ["some/relative/path/*"],
-    },
-    "noEmit": true,
-    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
     "allowJs": false,
+    "allowUnreachableCode": false,
+    "alwaysStrict": true,
+    "baseUrl": ".",
     "checkJs": false,
-    "noImplicitAny": true
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["esnext"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "noEmit": true,
+    "noErrorTruncation": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "outDir": "dist",
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "rootDir": ".",
+    "strict": true,
+    "target": "esnext",
   },
-  "include": ["./**/package.json", "layers/**/*", "src/**/*", "e2e/**/*"],
+  "include": ["./**/package.json", "src/**/*", "e2e/**/*"],
   "exclude": ["node_modules", "coverage", "__snapshots__", "docs/**", "dist/**"]
 }  
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "dist",
-    "noEmit": false,
-    "target": "ES6",
-    "module": "nodenext",
-    "esModuleInterop": true
-  },
-  "exclude": [
-    "node_modules",
-    "coverage",
-    "__snapshots__",
-    "docs/**",
-    "dist/**",
-    "e2e/**",
-    "./**/*.test.ts",
-    "./**/*.spec.ts",
-    "./**/*.test.ts",
-    "./**/*.spec.ts"
-  ]
-}{
-  "extends": "./tsconfig.json",
-  "ts-node": {
-    "require": ["tsconfig-paths/register"],
-    "swc": true,
-    "files": true,
-    "compilerOptions": {
-      "module": "CommonJS",
-      "target": "ES2017"
-    }
-  }
-}
