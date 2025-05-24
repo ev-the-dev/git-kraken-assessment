@@ -1,5 +1,5 @@
 import { Kysely } from "kysely"
-import { Database, Post, UpdatePost } from "src/data/types"
+import { Database, PostWithAuthor, UpdatePost } from "src/data/types"
 
 export class PostsService {
   public constructor(private readonly db: Kysely<Database>) {}
@@ -19,9 +19,7 @@ export class PostsService {
     }
   }
 
-  public async getPostById(
-    postId: string
-  ): Promise<(Post & { author: string }) | null> {
+  public async getPostById(postId: string): Promise<PostWithAuthor | null> {
     try {
       const dbPost = await this.db
         .selectFrom("post")
@@ -41,9 +39,7 @@ export class PostsService {
     }
   }
 
-  public async getPublishedPosts(): Promise<Array<
-    Post & { author: string }
-  > | null> {
+  public async getPublishedPosts(): Promise<PostWithAuthor[] | null> {
     try {
       // NOTE: Could use `leftJoin` to include posts from "deleted" users
       const dbPosts = await this.db
@@ -65,7 +61,7 @@ export class PostsService {
   public async updatePost(
     postId: string,
     post: UpdatePost
-  ): Promise<(Post & { author: string }) | null> {
+  ): Promise<PostWithAuthor | null> {
     try {
       const postToUpdate: Partial<UpdatePost> = {
         updated_at: new Date(),

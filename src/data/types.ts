@@ -29,6 +29,7 @@ interface UserTable {
 }
 
 export type Post = Selectable<PostTable>
+export type PostWithAuthor = Post & { author: User["name"] }
 export type NewPost = Insertable<PostTable>
 export type UpdatePost = Updateable<PostTable>
 
