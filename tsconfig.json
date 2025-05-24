@@ -27,6 +27,10 @@
     "rootDir": ".",
     "strict": true,
     "target": "esnext",
+    "typeRoots": [
+      "@types",
+      "node_modules/@types"
+    ],
   },
   "include": ["./**/package.json", "src/**/*", "e2e/**/*"],
   "exclude": ["node_modules", "coverage", "__snapshots__", "docs/**", "dist/**"]

@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { db } from "./data/database"
+import { db } from "../data/database"
 import { HealthController } from "./health/health.controller"
 import { HealthService } from "./health/health.service"
 
