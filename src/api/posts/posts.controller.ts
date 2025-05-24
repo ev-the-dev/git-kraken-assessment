@@ -12,6 +12,38 @@ export class PostsController {
     this.init()
   }
 
+  protected async deletePost(
+    req: ControllerRequest<void, DeletePostParams>,
+    res: Response
+  ) {
+    const { id: authId, role } = req.user
+    const { userId, postId } = req.params
+
+    if (authId !== userId && role !== "admin") {
+      res.status(HTTP_STATUS.AUTHZ).json({
+        error: "Unauthorized",
+      })
+      return
+    }
+
+    if (!userId || !postId) {
+      res.status(HTTP_STATUS.BAD_REQUEST).json({
+        error: "Must pass in both (userId) and (postId) via params",
+      })
+      return
+    }
+
+    const serviceRes = await this.service.deletePost(postId)
+    if (serviceRes == null) {
+      res.status(HTTP_STATUS.NOT_FOUND).json({
+        error: `Post with ID (${postId}) was not found`,
+      })
+      return
+    }
+
+    return serviceRes
+  }
+
   protected async getPublishedPosts(_: Request, res: Response) {
     const serviceRes = await this.service.getPublishedPosts()
     if (serviceRes == null) {
@@ -65,13 +97,22 @@ export class PostsController {
       return
     }
 
-    return serviceRes
+    res.status(HTTP_STATUS.OK).json(serviceRes)
   }
 
   protected init() {
+    // @ts-expect-error the type foo is too much on this
     this.router.get("/published", this.getPublishedPosts.bind(this))
+    // @ts-expect-error the type foo is too much on this
     this.router.put("/:userId/:postId", this.updatePost.bind(this))
+    // @ts-expect-error the type foo is too much on this
+    this.router.delete("/:userId/:postId", this.deletePost.bind(this))
   }
+}
+
+interface DeletePostParams {
+  postId: string
+  userId: string
 }
 
 interface UpdatePostParams {

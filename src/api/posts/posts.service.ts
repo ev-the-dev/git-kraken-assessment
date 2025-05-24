@@ -4,6 +4,21 @@ import { Database, Post, UpdatePost } from "src/data/types"
 export class PostsService {
   public constructor(private readonly db: Kysely<Database>) {}
 
+  public async deletePost(postId: string): Promise<void | null> {
+    try {
+      const result = await this.db
+        .deleteFrom("post")
+        .where("id", "=", Number(postId))
+        .executeTakeFirst()
+
+      if (result.numDeletedRows == BigInt(0)) return null
+    } catch (e) {
+      const err = e as Error
+      console.error(`posts: service: deletePost: ${err}\n`)
+      return null
+    }
+  }
+
   public async getPostById(
     postId: string
   ): Promise<(Post & { author: string }) | null> {
@@ -50,7 +65,7 @@ export class PostsService {
   public async updatePost(
     postId: string,
     post: UpdatePost
-  ): Promise<Post | null> {
+  ): Promise<(Post & { author: string }) | null> {
     try {
       const postToUpdate: Partial<UpdatePost> = {
         updated_at: new Date(),

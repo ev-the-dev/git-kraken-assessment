@@ -15,7 +15,12 @@ export type ControllerRequest<
   TRequest,
   TParams = Record<string, string>,
   TQuery = Record<string, string>,
-> = Request<ParamsDictionary<TParams>, void, TRequest, TQuery>
+> = Request<ParamsDictionary<TParams>, void, TRequest, TQuery> & {
+  user: {
+    id: string
+    role: "user" | "admin"
+  }
+}
 
 type ParamsDictionary<T = Record<string, string>> = {
   [U in keyof T]: T[U]

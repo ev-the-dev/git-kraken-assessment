@@ -8,12 +8,13 @@ export function Run() {
   app.use(express.json())
   app.disable("x-powered-by")
 
-  // @ts-expect-error - fiddling with types to long ,just ignoring this for now
+  // @ts-expect-error express type foo
   app.use(auth)
 
   const controllers = RegisterControllers()
 
   app.use("/health", controllers.health)
+  app.use("/posts", controllers.post)
 
   app.listen(process.env["PORT"], () => {
     console.log("Server is connected on: ", process.env["PORT"])
