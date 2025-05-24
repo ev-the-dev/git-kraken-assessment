@@ -22,6 +22,7 @@
     "clean": "rm -r dist/",
     "compile": "npx swc src/ -d dist/src && npx swc main.ts -o dist/main.js",
     "lint": "npx eslint",
+    "migrate": "node dist/src/data/migrate.js",
     "test:e2e": "npx jest --selectProjects e2e",
     "test:integration": "npx jest --selectProjects integration",
     "test:unit": "npx jest --selectProjects unit --passWithNoTests"
