@@ -15,6 +15,7 @@ export function Run() {
 
   app.use("/health", controllers.health)
   app.use("/posts", controllers.post)
+  app.use("/users", controllers.user)
 
   app.listen(process.env["PORT"], () => {
     console.log("Server is connected on: ", process.env["PORT"])

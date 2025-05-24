@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from "express"
 import { HTTP_STATUS } from "../common/types"
-import { db } from "src/data/database"
+import { db } from "../../data/database"
 
 // Mock Auth
 export async function auth(

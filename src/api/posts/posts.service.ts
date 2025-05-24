@@ -1,8 +1,38 @@
 import { Kysely } from "kysely"
-import { Database, PostWithAuthor, UpdatePost } from "src/data/types"
+import { Database, NewPost, PostWithAuthor, UpdatePost } from "../../data/types"
 
 export class PostsService {
   public constructor(private readonly db: Kysely<Database>) {}
+
+  public async createPost(
+    userId: string,
+    post: NewPost
+  ): Promise<PostWithAuthor | null> {
+    try {
+      const result = await this.db
+        .insertInto("post")
+        .values([
+          {
+            author_id: Number(userId),
+            content: post.content,
+            status: post.status,
+            title: post.title,
+          },
+        ])
+        .returning("id")
+        .executeTakeFirst()
+
+      if (result == undefined) return null
+
+      const postWithAuthor = await this.getPostById(result.id.toString())
+
+      return postWithAuthor
+    } catch (e) {
+      const err = e as Error
+      console.error(`posts: service: createPost: ${err}\n`)
+      return null
+    }
+  }
 
   public async deletePost(postId: string): Promise<void | null> {
     try {

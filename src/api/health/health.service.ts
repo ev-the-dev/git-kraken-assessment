@@ -1,5 +1,5 @@
 import { Kysely, sql } from "kysely"
-import { Database } from "src/data/types"
+import { Database } from "../../data/types"
 
 export class HealthService {
   public constructor(private readonly db: Kysely<Database>) {}
