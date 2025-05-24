@@ -1,4 +1,4 @@
-import { Kysely } from "kysely"
+import { Kysely, sql } from "kysely"
 import { Database } from "src/data/types"
 
 export class HealthService {
@@ -6,7 +6,7 @@ export class HealthService {
 
   public async Health(): Promise<boolean> {
     try {
-      await this.db.selectFrom("user").select("id").limit(1).execute()
+      await sql`SELECT 1`.execute(this.db)
       return true
     } catch {
       return false
