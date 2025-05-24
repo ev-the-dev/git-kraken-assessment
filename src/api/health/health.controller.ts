@@ -25,6 +25,7 @@ export class HealthController {
   }
 
   protected init() {
+    // @ts-expect-error the type foo is too much on this
     this.router.get("/", this.health.bind(this))
   }
 }
