@@ -4,6 +4,7 @@ declare module "express" {
   interface Request extends ExpressRequest {
     user: {
       id: string
+      role: "user" | "admin"
     }
   }
 }

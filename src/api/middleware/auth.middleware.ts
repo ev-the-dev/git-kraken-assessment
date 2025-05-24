@@ -1,8 +1,13 @@
 import type { Request, Response, NextFunction } from "express"
 import { HTTP_STATUS } from "../common/types"
+import { db } from "src/data/database"
 
 // Mock Auth
-export function auth(req: Request, res: Response, next: NextFunction): void {
+export async function auth(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
   const userId = req.headers["x-user-id"]
   if (!userId) {
     res.status(HTTP_STATUS.AUTHN).json({ error: "Unauthenticated" })
@@ -16,6 +21,17 @@ export function auth(req: Request, res: Response, next: NextFunction): void {
     return
   }
 
-  req.user = { id: userId }
+  const user = await db
+    .selectFrom("user")
+    .select(["id", "role"])
+    .where("id", "=", Number(userId))
+    .executeTakeFirst()
+
+  if (!user) {
+    res.status(HTTP_STATUS.AUTHN).json({ error: "Unauthenticated" })
+    return
+  }
+
+  req.user = { id: user.id.toString(), role: user.role }
   next()
 }

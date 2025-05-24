@@ -18,7 +18,7 @@ interface PostTable {
   content: string
   status: "draft" | "published"
   title: string
-  updated_at: ColumnType<Date, never, never>
+  updated_at: ColumnType<Date, never, Date>
 }
 
 interface UserTable {
