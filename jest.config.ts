@@ -187,17 +187,14 @@ const jestConfig = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-};
+}
 
 const projectsConfig = {
   projects: [
     {
       ...jestConfig,
       displayName: "test",
-      testMatch: [
-        "<rootDir>/src/handlers/**/?(*.)+(spec|test).[tj]s?(x)",
-        "<rootDir>/layers/**/?(*.)+(spec|test).[tj]s?(x)",
-      ],
+      testMatch: ["<rootDir>/src/unit-tests/**/?(*.)+(spec|test).[tj]s?(x)"],
     },
     {
       ...jestConfig,
@@ -212,6 +209,7 @@ const projectsConfig = {
       testMatch: ["<rootDir>/e2e/**/?(*.)+(spec|test).[tj]s?(x)"],
     },
   ],
-};
+}
 
-export default projectsConfig;
+export default projectsConfig
+
