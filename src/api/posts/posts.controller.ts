@@ -62,15 +62,15 @@ export class PostsController {
       return
     }
 
-    const serviceRes = await this.service.deletePost(postId)
-    if (serviceRes == null) {
+    const serviceRes = await this.service.deletePost(userId, postId)
+    if (serviceRes === null) {
       res.status(HTTP_STATUS.NOT_FOUND).json({
         error: `Post with ID (${postId}) was not found`,
       })
       return
     }
 
-    return serviceRes
+    res.sendStatus(HTTP_STATUS.NO_CONTENT)
   }
 
   protected async getPublishedPosts(_: Request, res: Response) {
@@ -118,7 +118,7 @@ export class PostsController {
       return
     }
 
-    const serviceRes = await this.service.updatePost(postId, req.body)
+    const serviceRes = await this.service.updatePost(userId, postId, req.body)
     if (serviceRes == null) {
       res.status(HTTP_STATUS.NOT_FOUND).json({
         error: `Post with ID (${postId}) was not found`,

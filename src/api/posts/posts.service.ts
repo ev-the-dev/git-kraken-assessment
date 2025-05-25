@@ -29,22 +29,30 @@ export class PostsService {
       return postWithAuthor
     } catch (e) {
       const err = e as Error
-      console.error(`posts: service: createPost: ${err}\n`)
+      console.error("posts: service: createPost: ", err)
       return null
     }
   }
 
-  public async deletePost(postId: string): Promise<void | null> {
+  public async deletePost(
+    userId: string,
+    postId: string
+  ): Promise<void | null> {
     try {
       const result = await this.db
         .deleteFrom("post")
-        .where("id", "=", Number(postId))
+        .where(eb =>
+          eb.and([
+            eb("id", "=", Number(postId)),
+            eb("author_id", "=", Number(userId)),
+          ])
+        )
         .executeTakeFirst()
 
-      if (result.numDeletedRows == BigInt(0)) return null
+      if (result.numDeletedRows === BigInt(0)) return null
     } catch (e) {
       const err = e as Error
-      console.error(`posts: service: deletePost: ${err}\n`)
+      console.error("posts: service: deletePost: ", err)
       return null
     }
   }
@@ -64,7 +72,7 @@ export class PostsService {
       return dbPost
     } catch (e) {
       const err = e as Error
-      console.error(`posts: service: getPostById: ${err}\n`)
+      console.error("posts: service: getPostById: ", err)
       return null
     }
   }
@@ -83,12 +91,13 @@ export class PostsService {
       return dbPosts
     } catch (e) {
       const err = e as Error
-      console.error(`posts: service: getPublishedPosts: ${err}\n`)
+      console.error("posts: service: getPublishedPosts: ", err)
       return null
     }
   }
 
   public async updatePost(
+    userId: string,
     postId: string,
     post: UpdatePost
   ): Promise<PostWithAuthor | null> {
@@ -103,7 +112,12 @@ export class PostsService {
       await this.db
         .updateTable("post")
         .set(postToUpdate)
-        .where("id", "=", Number(postId))
+        .where(eb =>
+          eb.and([
+            eb("id", "=", Number(postId)),
+            eb("author_id", "=", Number(userId)),
+          ])
+        )
         .executeTakeFirst()
 
       const updatedPost = await this.getPostById(postId)
@@ -111,7 +125,7 @@ export class PostsService {
       return updatedPost
     } catch (e) {
       const err = e as Error
-      console.error(`posts: service: updatePost: ${err}\n`)
+      console.error("posts: service: updatePost: ", err)
       return null
     }
   }

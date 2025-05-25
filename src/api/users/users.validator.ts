@@ -2,6 +2,10 @@ import { NewUser } from "../../data/types"
 import { BloggeurError, ValidationError } from "../common/errors"
 
 export function validateCreateUserBody(user: NewUser): BloggeurError | void {
+  if (!user || typeof user !== "object") {
+    return new ValidationError(`Please provide a valid User object`)
+  }
+
   const { name, role } = user
 
   if (!name || typeof name !== "string") {

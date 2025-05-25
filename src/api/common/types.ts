@@ -3,6 +3,7 @@ import { Request } from "express"
 export enum HTTP_STATUS {
   OK = 200,
   CREATED = 201,
+  NO_CONTENT = 204,
   BAD_REQUEST = 400,
   AUTHN = 401,
   AUTHZ = 403,

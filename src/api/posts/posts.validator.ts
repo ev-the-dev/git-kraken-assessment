@@ -2,6 +2,10 @@ import { NewPost, UpdatePost } from "../../data/types"
 import { BloggeurError, ValidationError } from "../common/errors"
 
 export function validateCreatePostBody(post: NewPost): BloggeurError | void {
+  if (!post || typeof post !== "object") {
+    return new ValidationError(`Please provide a valid Post object`)
+  }
+
   const { content, status, title } = post
   if (!content || typeof content !== "string") {
     return new ValidationError(
@@ -24,6 +28,10 @@ export function validateCreatePostBody(post: NewPost): BloggeurError | void {
 }
 
 export function validateUpdatePostBody(post: UpdatePost): BloggeurError | void {
+  if (!post || typeof post !== "object") {
+    return new ValidationError(`Please provide a valid Post object`)
+  }
+
   const { content, status, title } = post
   if (content && typeof content !== "string") {
     return new ValidationError(
