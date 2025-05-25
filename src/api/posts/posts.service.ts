@@ -77,6 +77,26 @@ export class PostsService {
     }
   }
 
+  public async getPostsByUser(
+    userId: string
+  ): Promise<PostWithAuthor[] | null> {
+    try {
+      const dbPosts = await this.db
+        .selectFrom("post")
+        .innerJoin("user", "post.author_id", "user.id")
+        .selectAll("post")
+        .select("user.name as author")
+        .where("post.author_id", "=", Number(userId))
+        .execute()
+
+      return dbPosts
+    } catch (e) {
+      const err = e as Error
+      console.error("posts: service: getPostsByUser: ", err)
+      return null
+    }
+  }
+
   public async getPublishedPosts(): Promise<PostWithAuthor[] | null> {
     try {
       // NOTE: Could use `leftJoin` to include posts from "deleted" users

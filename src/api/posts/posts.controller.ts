@@ -73,9 +73,36 @@ export class PostsController {
     res.sendStatus(HTTP_STATUS.NO_CONTENT)
   }
 
+  protected async getPostsByUser(req: Request, res: Response) {
+    const { id: authId, role } = req.user
+    const { userId } = req.params
+
+    if (!userId) {
+      res.status(HTTP_STATUS.BAD_REQUEST).json({
+        error: "Must pass in (userId) via params",
+      })
+      return
+    }
+
+    if (authId !== userId && role !== "admin") {
+      res.status(HTTP_STATUS.AUTHZ).json({
+        error: "Unauthorized",
+      })
+      return
+    }
+    const serviceRes = await this.service.getPostsByUser(userId)
+
+    if (serviceRes === null) {
+      res.status(HTTP_STATUS.INTERNAL)
+      return
+    }
+
+    res.status(HTTP_STATUS.OK).json(serviceRes)
+  }
+
   protected async getPublishedPosts(_: Request, res: Response) {
     const serviceRes = await this.service.getPublishedPosts()
-    if (serviceRes == null) {
+    if (serviceRes === null) {
       res.sendStatus(HTTP_STATUS.INTERNAL)
       return
     }
@@ -83,10 +110,6 @@ export class PostsController {
     res.status(HTTP_STATUS.OK).json({
       posts: serviceRes,
     })
-  }
-
-  protected getPublishedPostsByUser(_: Request, res: Response) {
-    res.sendStatus(HTTP_STATUS.NOT_IMPL)
   }
 
   protected async updatePost(
@@ -132,6 +155,8 @@ export class PostsController {
   protected init() {
     // @ts-expect-error the type foo is too much on this
     this.router.get("/published", this.getPublishedPosts.bind(this))
+    // @ts-expect-error the type foo is too much on this
+    this.router.get("/:userId", this.getPostsByUser.bind(this))
     // @ts-expect-error the type foo is too much on this
     this.router.post("/:userId", this.createPost.bind(this))
     // @ts-expect-error the type foo is too much on this
